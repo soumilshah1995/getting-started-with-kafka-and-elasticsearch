@@ -3,6 +3,7 @@ try:
     from faker import Faker
     import json
     from time import sleep
+    import uuid
 except Exception as e:
     pass
 
@@ -13,14 +14,13 @@ _instance = Faker()
 for _ in range(20):
     _data = {
         "first_name": _instance.first_name(),
-        "city":_instance.city(),
-        "phone_number":_instance.phone_number(),
-        "state":_instance.state(),
-        "id":str(_)
+        "id":str(_),
+        "uuid":uuid.uuid4().__str__()
     }
     _payload = json.dumps(_data).encode("utf-8")
     response = producer.send('FirstTopic', _payload)
-    print(response)
+    print(_data)
+
 
     sleep(2)
 
